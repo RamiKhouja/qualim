@@ -7,7 +7,10 @@
             <a href="{{route('admin.questions.create')}}" type="button" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Ajouter Question</a>
         </div>
     </x-slot>
-    <div class="pt-2 pb-12">
+    <!-- @if(Auth::user()->role != 'admin')
+    @php return redirect()->route('questions')->with('success','You shall not pass'); @endphp
+    @endif -->
+    <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if ($message = Session::get('success'))
             <div id="successMessage" class="rounded-md bg-green-50 p-4 mb-6 shadow">
@@ -56,11 +59,9 @@
                         </div>
                         </div>
                     </div>
-                    @if(count($questions) > 4)
                     <div class="mt-6">
                     {{ $questions->links() }}
                     </div>
-                    @endif
                 </div>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-8 md:mt-0">
                     <div class="px-4 sm:px-6 lg:px-8">
@@ -101,11 +102,9 @@
                         </div>
                         </div>
                     </div>
-                    @if(count($colquests) > 4)
                     <div class="mt-6">
                     {{ $colquests->links() }}
                     </div>
-                    @endif
                 </div>
             </div>
             <div class="md:columns-2 md:gap-8 mt-8">
@@ -148,11 +147,9 @@
                         </div>
                         </div>
                     </div>
-                    @if(count($indquests) > 4)
                     <div class="mt-6">
                     {{ $indquests->links() }}
                     </div>
-                    @endif
                 </div>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-8 md:mt-0">
                     <div class="px-4 sm:px-6 lg:px-8">
@@ -193,11 +190,9 @@
                         </div>
                         </div>
                     </div>
-                    @if(count($disquests) > 4)
-                    <div class="mt-6">
+                    <!-- <div class="mt-6">
                     {{ $disquests->links() }}
-                    </div>
-                    @endif
+                    </div> -->
                 </div>
             </div>
         </div>

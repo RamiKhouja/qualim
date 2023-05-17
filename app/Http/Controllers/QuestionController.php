@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Question;
 
@@ -12,16 +13,28 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate(5);
-        $colquests = Question::orderBy('order','asc')->where('role','=', 'collecteur')->paginate(5);
-        $indquests = Question::orderBy('order','asc')->where('role','=', 'industrie')->paginate(5);
-        $disquests = Question::orderBy('order','asc')->where('role','=', 'distributeur')->paginate(5);
+        $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate();
+        $colquests = Question::orderBy('order','asc')->where('role','=', 'collecteur')->paginate();
+        $indquests = Question::orderBy('order','asc')->where('role','=', 'industrie')->paginate();
+        $disquests = Question::orderBy('order','asc')->where('role','=', 'distributeur')->paginate();
         return view('admin.questions.index', compact(['questions', 'colquests', 'indquests', 'disquests']));
     }
 
     public function indexEleveur()
     {
-        $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate(5);
+        $phase = Auth::user()->phase;
+        $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate();
+
+        if($phase == 1) {
+            $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate();
+        } elseif($phase == 2) {
+            $questions = Question::orderBy('order','asc')->where('role','=', 'collecteur')->paginate();
+        } elseif($phase == 3) {
+            $questions = Question::orderBy('order','asc')->where('role','=', 'industrie')->paginate();
+        } elseif($phase == 4) {
+            $questions = Question::orderBy('order','asc')->where('role','=', 'distributeur')->paginate();
+        }
+        
         return view('client.questions.index', compact('questions'));
     }
 

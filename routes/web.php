@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ChoiceController;
+use App\Http\Controllers\AnswerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/dashboard', function () {
@@ -37,12 +38,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/questions/create', [QuestionController::class, 'create'])->name('admin.questions.create');
     Route::post('/admin/questions', [QuestionController::class, 'store'])->name('admin.questions.store');
     Route::get('/questions', [QuestionController::class, 'indexEleveur'])->name('questions');
+    Route::get('/admin/answers', [AnswerController::class, 'indexByUsers'])->name('admin.answers');
+    Route::put('/admin/answers/{answer}', [AnswerController::class, 'update'])->name('admin.answers.update');
+    Route::put('/admin/answers/users/{user}', [AnswerController::class, 'userValid'])->name('admin.answers.users.update');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin/choices', [ChoiceController::class, 'index'])->name('admin.choices');
     Route::get('/admin/choices/create/{question_id}', [ChoiceController::class, 'create'])->name('admin.choices.create');
     Route::post('/admin/choices', [ChoiceController::class, 'store'])->name('admin.choices.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/answers', [AnswerController::class, 'store'])->name('answers.store');
 });
 
 require __DIR__.'/auth.php';
