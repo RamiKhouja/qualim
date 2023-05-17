@@ -2,7 +2,15 @@
     <x-slot name="header">
         <div class="flex flex-row justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Questions Eleveur') }}
+                @if(Auth::user()->phase == 1)
+                    {{ __('Questions Eleveur') }}
+                @elseif(Auth::user()->phase == 2)
+                    {{ __('Questions Collecteur') }}
+                @elseif(Auth::user()->phase == 3)
+                    {{ __('Questions Industrie') }}
+                @elseif(Auth::user()->phase == 4)
+                    {{ __('Questions Distributeur') }}
+                @endif
             </h2>
             <!-- <a href="{{route('admin.questions.create')}}" type="button" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Ajouter Question</a> -->
         </div>
@@ -24,7 +32,7 @@
             <div class="rounded-md bg-white p-4 mb-6 shadow-sm">
                 <x-heroicon-m-information-circle class="mx-auto h-12 w-12 text-blue-600"/>
                 <h3 class="mt-2 text-base font-semibold text-gray-900">En Attente</h3>
-                <p class="mt-1 text-base text-gray-600">Votre réponse est en attente de traitement</p>
+                <p class="mt-1 text-base text-gray-600">Votre réponse est en cours de traitement</p>
             </div>
             </div>
             @else

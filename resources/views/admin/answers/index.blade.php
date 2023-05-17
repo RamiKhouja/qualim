@@ -97,15 +97,15 @@
         <div class="flex items-center justify-center min-h-screen px-4">
             <div class="bg-white rounded p-8">
                 <!-- Modal content -->
-                <h2>Invalid Answer</h2>
+                <h2 class="mb-2 text-base font-semibold text-gray-900">Réponse Incorrecte</h2>
                 <form action="{{ route('admin.answers.update', ['answer' => 'answerId']) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="valid" value="0">
                     <input type="hidden" name="inspected" value="1">
-                    <input type="text" name="validation_text" class="border rounded w-full mb-4" placeholder="Validation Text">
-                    <button type="submit" class="btn-submit">Envoyer</button>
-                    <button type="button" class="btn-close" onclick="closeModal()">Close</button>
+                    <input type="text" name="validation_text" class="border rounded w-full mb-4" placeholder="Texte de valdation">
+                    <button type="submit" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Envoyer</button>
+                    <button type="button" class="ml-6 rounded-md bg-white border border-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onclick="closeModal()">Close</button>
                 </form>
             </div>
         </div>

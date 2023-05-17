@@ -33,23 +33,23 @@ Route::middleware('auth')->group(function () {
 
 //Route::resource('questions', QuestionController::class)->middleware('auth');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('admin')->group(function () {
     Route::get('/admin/questions', [QuestionController::class, 'index'])->name('admin.questions');
     Route::get('/admin/questions/create', [QuestionController::class, 'create'])->name('admin.questions.create');
     Route::post('/admin/questions', [QuestionController::class, 'store'])->name('admin.questions.store');
-    Route::get('/questions', [QuestionController::class, 'indexEleveur'])->name('questions');
     Route::get('/admin/answers', [AnswerController::class, 'indexByUsers'])->name('admin.answers');
     Route::put('/admin/answers/{answer}', [AnswerController::class, 'update'])->name('admin.answers.update');
     Route::put('/admin/answers/users/{user}', [AnswerController::class, 'userValid'])->name('admin.answers.users.update');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('admin')->group(function () {
     Route::get('/admin/choices', [ChoiceController::class, 'index'])->name('admin.choices');
     Route::get('/admin/choices/create/{question_id}', [ChoiceController::class, 'create'])->name('admin.choices.create');
     Route::post('/admin/choices', [ChoiceController::class, 'store'])->name('admin.choices.store');
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/questions', [QuestionController::class, 'indexEleveur'])->name('questions');
     Route::post('/answers', [AnswerController::class, 'store'])->name('answers.store');
 });
 
