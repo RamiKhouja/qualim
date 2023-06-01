@@ -24,13 +24,24 @@
             @if($userAnswers[0]->user->in_progress == true)
             @php
             $count = $count + 1;
+            $role = $userAnswers[0]->question->role;
             @endphp
             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                 <div class="p-6 border-b border-b-gray-200 mb-2">
                     <div class="flex items-start gap-x-3">
                         <h3 class="text-lg font-semibold leading-6 text-gray-900">{{ $userAnswers[0]->user->firstname }} {{ $userAnswers[0]->user->lastname }}</h3>
-                        <p class="rounded-md bg-indigo-100 text-indigo-600 mt-0.5 px-1.5 py-0.5 text-xs font-medium">
-                         {{ $userAnswers[0]->question->role }}
+                        <p class="mt-0.5 px-1.5 py-0.5 text-xs font-medium rounded-md
+                            @if($role=='eleveur')
+                                bg-gray-100 text-gray-900
+                            @elseif($role=='collecteur')
+                                bg-yellow-100 text-yellow-900
+                            @elseif($role=='industrie')
+                                bg-orange-100 text-orange-900
+                            @elseif($role=='distributeur')
+                                bg-blue-100 text-blue-900
+                            @endif
+                        ">
+                         {{ ucfirst($userAnswers[0]->question->role) }}
                         </p>
                     </div>
                     <p class="mt-1 text-sm text-gray-500">

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +47,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/choices', [ChoiceController::class, 'index'])->name('admin.choices');
     Route::get('/admin/choices/create/{question_id}', [ChoiceController::class, 'create'])->name('admin.choices.create');
     Route::post('/admin/choices', [ChoiceController::class, 'store'])->name('admin.choices.store');
+    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
 });
 
 Route::middleware('auth')->group(function () {

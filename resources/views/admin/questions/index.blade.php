@@ -19,7 +19,7 @@
                 </div>
             </div>
             @endif
-            <div class="md:columns-2 md:gap-8">
+            <div class="lg:columns-2 lg:gap-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="px-4 sm:px-6 lg:px-8">
                         <h1 class="text-base font-semibold leading-6 text-gray-900">Questions Eleveur</h1>
@@ -63,7 +63,7 @@
                     {{ $questions->links() }}
                     </div>
                 </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-8 md:mt-0">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-8 lg:mt-0">
                     <div class="px-4 sm:px-6 lg:px-8">
                         <h1 class="text-base font-semibold leading-6 text-gray-900">Questions Collecteur</h1>
                         <p class="mt-2 text-sm text-gray-600">
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </div>
-            <div class="md:columns-2 md:gap-8 mt-8">
+            <div class="lg:columns-2 lg:gap-8 mt-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <div class="px-4 sm:px-6 lg:px-8">
                         <h1 class="text-base font-semibold leading-6 text-gray-900">Questions Industrie</h1>
@@ -151,7 +151,7 @@
                     {{ $indquests->links() }}
                     </div>
                 </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-8 md:mt-0">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-8 lg:mt-0">
                     <div class="px-4 sm:px-6 lg:px-8">
                         <h1 class="text-base font-semibold leading-6 text-gray-900">Questions Distributeur</h1>
                         <p class="mt-2 text-sm text-gray-600">

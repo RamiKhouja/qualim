@@ -17,8 +17,42 @@ class AnswerController extends Controller
 
     public function indexByUsers()
     {
-        $answers = Answer::with('user')
-            ->orderBy('user_id')
+        // $answers = Answer::with('user')
+        //     ->orderBy('user_id')
+        //     ->get()
+        //     ->groupBy('user_id');
+
+        $answers = Answer::with('user', 'question')
+            ->where(function ($query) {
+                $query->where(function ($subquery) {
+                    $subquery->whereHas('user', function ($userQuery) {
+                        $userQuery->where('phase', 1);
+                    })->whereHas('question', function ($questionQuery) {
+                        $questionQuery->where('role', 'eleveur');
+                    });
+                })
+                ->orWhere(function ($subquery) {
+                    $subquery->whereHas('user', function ($userQuery) {
+                        $userQuery->where('phase', 2);
+                    })->whereHas('question', function ($questionQuery) {
+                        $questionQuery->where('role', 'collecteur');
+                    });
+                })
+                ->orWhere(function ($subquery) {
+                    $subquery->whereHas('user', function ($userQuery) {
+                        $userQuery->where('phase', 3);
+                    })->whereHas('question', function ($questionQuery) {
+                        $questionQuery->where('role', 'industrie');
+                    });
+                })
+                ->orWhere(function ($subquery) {
+                    $subquery->whereHas('user', function ($userQuery) {
+                        $userQuery->where('phase', 4);
+                    })->whereHas('question', function ($questionQuery) {
+                        $questionQuery->where('role', 'distributeur');
+                    });
+                });
+            })
             ->get()
             ->groupBy('user_id');
 

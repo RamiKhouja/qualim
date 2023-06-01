@@ -22,6 +22,9 @@
                     <x-nav-link :href="route('admin.answers')" :active="request()->routeIs('admin.answers')">
                         {{ __('Réponses') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                        {{ __('Utilisateurs') }}
+                    </x-nav-link>
                     @else
                     <x-nav-link :href="route('questions')" :active="request()->routeIs('admin.questions')">
                         {{ __('Questions') }}
