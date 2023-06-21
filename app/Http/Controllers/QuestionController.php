@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Question;
+use App\Models\Lot;
 
 class QuestionController extends Controller
 {
@@ -12,16 +14,29 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate(5);
-        $colquests = Question::orderBy('order','asc')->where('role','=', 'collecteur')->paginate(5);
-        $indquests = Question::orderBy('order','asc')->where('role','=', 'industrie')->paginate(5);
-        $disquests = Question::orderBy('order','asc')->where('role','=', 'distributeur')->paginate(5);
+        $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate();
+        $colquests = Question::orderBy('order','asc')->where('role','=', 'collecteur')->paginate();
+        $indquests = Question::orderBy('order','asc')->where('role','=', 'industrie')->paginate();
+        $disquests = Question::orderBy('order','asc')->where('role','=', 'distributeur')->paginate();
         return view('admin.questions.index', compact(['questions', 'colquests', 'indquests', 'disquests']));
     }
 
-    public function indexEleveur()
+    public function indexEleveur(Request $request, $lot_id)
     {
-        $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate(5);
+        $lot = Lot::find($lot_id);
+        $phase = $lot->phase;
+        $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate();
+
+        if($phase == 1) {
+            $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate();
+        } elseif($phase == 2) {
+            $questions = Question::orderBy('order','asc')->where('role','=', 'collecteur')->paginate();
+        } elseif($phase == 3) {
+            $questions = Question::orderBy('order','asc')->where('role','=', 'industrie')->paginate();
+        } elseif($phase == 4) {
+            $questions = Question::orderBy('order','asc')->where('role','=', 'distributeur')->paginate();
+        }
+        
         return view('client.questions.index', compact('questions'));
     }
 
@@ -67,7 +82,7 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $lot_id)
     {
         //
     }

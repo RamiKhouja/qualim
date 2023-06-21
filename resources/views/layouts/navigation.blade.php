@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <img src="{{ asset('images/qualim-logo.png') }}" alt="Qualim" class="w-12 h-12">
                     </a>
                 </div>
 
@@ -15,9 +15,26 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if(Auth::user()->role == 'admin')
                     <x-nav-link :href="route('admin.questions')" :active="request()->routeIs('admin.questions')">
                         {{ __('Questions') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.answers')" :active="request()->routeIs('admin.answers')">
+                        {{ __('Réponses') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                        {{ __('Utilisateurs') }}
+                    </x-nav-link>
+                    @else
+                    <x-nav-link :href="route('lots')" :active="request()->routeIs('lots')">
+                        {{ __('Lots') }}
+                    </x-nav-link>
+                    @endif
+                    @if(Auth::user()->role == 'collecteur')
+                    <x-nav-link :href="route('requests')" :active="request()->routeIs('requests')">
+                        {{ __('Demandes') }}
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -26,7 +43,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <div>{{ Auth::user()->firstname }}</div>
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -73,9 +90,23 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.questions')" :active="request()->routeIs('dashboard')">
+            @if(Auth::user()->role == 'admin')
+            <x-responsive-nav-link :href="route('admin.questions')" :active="request()->routeIs('admin.questions')">
                 {{ __('Questions') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.answers')" :active="request()->routeIs('admin.answers')">
+                        {{ __('Réponses') }}
+            </x-responsive-nav-link>
+            @else
+            <x-responsive-nav-link :href="route('lots')" :active="request()->routeIs('lots')">
+                {{ __('Lots') }}
+            </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->role == 'collecteur')
+            <x-responsive-nav-link :href="route('requests')" :active="request()->routeIs('requests')">
+                {{ __('Demandes') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

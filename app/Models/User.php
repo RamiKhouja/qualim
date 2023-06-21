@@ -24,7 +24,7 @@ class User extends Authenticatable
         'password',
         'role',
         'country', 'state', 'city', 'address',
-        'active', 'phase', 'company'
+        'active', 'company'
     ];
 
     /**
@@ -45,4 +45,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function answers() {
+        return $this->hasMany(Answer::class);
+    }
+
+    public function lots() {
+        return $this->hasMany(Lot::class, 'owner');
+    }
+
+    public function receivedLots()
+    {
+        return $this->belongsToMany(Lot::class, 'lot_users')->select('lots.*', 'lot_users.*');
+    }
 }
