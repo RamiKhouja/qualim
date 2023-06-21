@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 use App\Models\Answer;
 use App\Models\User;
+use App\Models\Lot;
+use App\Models\LotUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AnswerController extends Controller
 {
@@ -59,6 +63,34 @@ class AnswerController extends Controller
         return view('admin.answers.index', compact('answers'));
     }
 
+    public function indexByLots()
+    {
+        $answers = Answer::with('lot', 'question')
+            ->orderBy('lot_id')
+            ->get()
+            ->groupBy('lot_id');
+
+        return view('admin.answers.index', compact('answers'));
+    }
+
+    public function indexRequests()
+    {
+        $collectorId = Auth::id();
+
+        $answers = Answer::with(['lot' => function ($query) use ($collectorId) {
+            $query
+            ->whereHas('destinations', function ($subQuery) use ($collectorId) {
+                $subQuery->where('user_id', $collectorId)
+                    ->where('in_progress', true);
+            });
+        }, 'question'])
+        ->orderBy('lot_id')
+        ->get()
+        ->groupBy('lot_id');
+
+        return view('client.requests.index', compact('answers'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -74,6 +106,7 @@ class AnswerController extends Controller
     {
         $answers = $request->input('answers');
         $user_id = (int)$request->input('user_id');
+        $lot_id = (int)$request->input('lot_id');
         //dump($answers);
         // dump($request->files);
         
@@ -87,31 +120,23 @@ class AnswerController extends Controller
                 'question_id' => $questionId,
                 'answer' => $answerValue,
                 'valid' => false,
-                'validation_text' => ''
+                'validation_text' => '',
+                'lot_id' => $lot_id
             ]);
         }
-        // edit user in progress
-        $user = User::find($user_id);
-        if($user) {
-            $user->in_progress = true;
-            $user->save();
+        // edit lot in progress
+        $lot = Lot::find($lot_id);
+        if($lot) {
+            $lot->in_progress = true;
+            $lot->save();
+        }
+        $lotUsers = LotUser::where('lot_id', $lot->id)->get();
+        foreach($lotUsers as $lotUser) {
+            $lotUser->in_progress = true;
+            $lotUser->save();
         }
 
-        return redirect()->route('questions')->with('success','Votre réponse va être étudiée.');
-    }
-
-    public function userValid(Request $request, User $user)
-    {
-        if ($request->has('accept')) {
-            $user->phase += 1;
-            $user->in_progress = false;
-        } elseif ($request->has('reject')) {
-            $user->in_progress = false;
-        }
-        
-        $user->save();
-
-        return redirect()->back()->with('success','Une validation est envoyée à l\'utilisateur');;
+        return redirect()->route('lots')->with('success','Votre réponse va être étudiée.');
     }
 
     /**

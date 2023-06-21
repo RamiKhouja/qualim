@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Question;
+use App\Models\Lot;
 
 class QuestionController extends Controller
 {
@@ -20,9 +21,10 @@ class QuestionController extends Controller
         return view('admin.questions.index', compact(['questions', 'colquests', 'indquests', 'disquests']));
     }
 
-    public function indexEleveur()
+    public function indexEleveur(Request $request, $lot_id)
     {
-        $phase = Auth::user()->phase;
+        $lot = Lot::find($lot_id);
+        $phase = $lot->phase;
         $questions = Question::orderBy('order','asc')->where('role','=', 'eleveur')->paginate();
 
         if($phase == 1) {
@@ -80,7 +82,7 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $lot_id)
     {
         //
     }

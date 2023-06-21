@@ -5,6 +5,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,9 +39,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/questions', [QuestionController::class, 'index'])->name('admin.questions');
     Route::get('/admin/questions/create', [QuestionController::class, 'create'])->name('admin.questions.create');
     Route::post('/admin/questions', [QuestionController::class, 'store'])->name('admin.questions.store');
-    Route::get('/admin/answers', [AnswerController::class, 'indexByUsers'])->name('admin.answers');
+    Route::get('/admin/answers', [AnswerController::class, 'indexByLots'])->name('admin.answers');
     Route::put('/admin/answers/{answer}', [AnswerController::class, 'update'])->name('admin.answers.update');
-    Route::put('/admin/answers/users/{user}', [AnswerController::class, 'userValid'])->name('admin.answers.users.update');
+    Route::put('/admin/answers/lots/{lot}', [LotController::class, 'adminValid'])->name('admin.answers.lots.update');
 });
 
 Route::middleware('admin')->group(function () {
@@ -51,8 +52,16 @@ Route::middleware('admin')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/questions', [QuestionController::class, 'indexEleveur'])->name('questions');
+    Route::get('/questions/{lot_id}', [QuestionController::class, 'indexEleveur'])->name('questions');
     Route::post('/answers', [AnswerController::class, 'store'])->name('answers.store');
+    Route::get('/lots', [LotController::class, 'myIndex'])->name('lots');
+    Route::get('/lots/create', [LotController::class, 'create'])->name('lots.create');
+    Route::post('/lots/store', [LotController::class, 'store'])->name('lots.store');
+});
+
+Route::middleware('collector')->group(function () {
+    Route::get('/requests', [AnswerController::class, 'indexRequests'])->name('requests');
+    Route::put('/requests/lots/{lot}', [LotController::class, 'destValid'])->name('requests.lots.update');
 });
 
 require __DIR__.'/auth.php';

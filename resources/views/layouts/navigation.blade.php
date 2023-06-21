@@ -26,8 +26,13 @@
                         {{ __('Utilisateurs') }}
                     </x-nav-link>
                     @else
-                    <x-nav-link :href="route('questions')" :active="request()->routeIs('admin.questions')">
-                        {{ __('Questions') }}
+                    <x-nav-link :href="route('lots')" :active="request()->routeIs('lots')">
+                        {{ __('Lots') }}
+                    </x-nav-link>
+                    @endif
+                    @if(Auth::user()->role == 'collecteur')
+                    <x-nav-link :href="route('requests')" :active="request()->routeIs('requests')">
+                        {{ __('Demandes') }}
                     </x-nav-link>
                     @endif
                 </div>
@@ -93,8 +98,13 @@
                         {{ __('Réponses') }}
             </x-responsive-nav-link>
             @else
-            <x-responsive-nav-link :href="route('questions')" :active="request()->routeIs('dashboard')">
-                {{ __('Questions') }}
+            <x-responsive-nav-link :href="route('lots')" :active="request()->routeIs('lots')">
+                {{ __('Lots') }}
+            </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->role == 'collecteur')
+            <x-responsive-nav-link :href="route('requests')" :active="request()->routeIs('requests')">
+                {{ __('Demandes') }}
             </x-responsive-nav-link>
             @endif
         </div>

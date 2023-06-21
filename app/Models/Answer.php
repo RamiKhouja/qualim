@@ -11,7 +11,7 @@ class Answer extends Model
 
     protected $fillable = [
         'question_id', 
-        'user_id',
+        'lot_id',
         'answer',
         'valid',
         'validation_text',
@@ -22,13 +22,13 @@ class Answer extends Model
         return $this->hasMany(File::class);
     }
 
-    public function user()
-    {
-        return $this->hasOne(User::class, 'id', 'user_id');
-    }
-
     public function question()
     {
         return $this->hasOne(Question::class, 'id', 'question_id');
+    }
+
+    public function lot()
+    {
+        return $this->hasOne(Lot::class, 'id', 'lot_id');
     }
 }

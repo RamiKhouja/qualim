@@ -39,6 +39,7 @@
                 <form action="{{ route('answers.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" value="{{Auth::id()}}" />
+                <input type="hidden" name="lot_id" id="lot_id" value="{{ (int)Route::current()->parameter('lot_id') }}" />
                 @foreach ($questions as $question)
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-6">
                     <div class="px-4 sm:px-6 lg:px-8">
